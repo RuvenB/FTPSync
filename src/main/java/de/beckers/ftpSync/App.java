@@ -121,6 +121,9 @@ public class App
         d.add(createLabel(240, "Interval des Uploads auf den FTP"));
         final TextField uploadInterValField = createField(240, Long.toString( konf.getUploadInterval()) );
         d.add(uploadInterValField);
+        d.add(createLabel(270, "Änderungen hochladen ab"));
+        final TextField cutoffDateField = createField(270, pref.get(PrefKeys.LAST_CHANGE.name(), "0"));
+        d.add(cutoffDateField);
 
         d.add(createLabel(270, "Pattern um Dateien auszuschließen"));
 
@@ -140,6 +143,7 @@ public class App
             konf.setUploadInterval(Long.parseLong(uploadInterValField.getText()));
             konf.setToExclude(area.getText());
 
+            pref.put(PrefKeys.LAST_CHANGE.name(), cutoffDateField.getText());
             saveKonfig(konf, pref);
 		    if(isKonfValid(konf)){
                 threads.start();

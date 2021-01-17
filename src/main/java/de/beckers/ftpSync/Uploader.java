@@ -4,10 +4,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.TimerTask;
 
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,7 +46,14 @@ public class Uploader extends TimerTask{
         }
         try{
             final FTPClient client = new FTPClient();
+            FTPClientConfig conf = new FTPClientConfig(FTPClientConfig.SYST_UNIX);
+            conf.setServerLanguageCode("de");
+            client.configure(conf);
+            client.setCharset(StandardCharsets.ISO_8859_1);
             client.connect(this.konf.getFtpHost());
+            client.enterLocalPassiveMode();
+            client.setFileType(FTP.BINARY_FILE_TYPE);
+            client.setFileTransferMode(FTP.BINARY_FILE_TYPE);
             if(!client.login(this.konf.getFtpUser(), this.konf.getFtpPwd())){
                 LOGGER.error("Konnte mich am FTP nicht anmelden");
                 return;
@@ -73,7 +83,7 @@ public class Uploader extends TimerTask{
         try{
             Files.delete(f.toPath());
         }catch(Exception err){
-            LOGGER.error("Konnte Datei nicht löschen " + f.getAbsolutePath(), err);
+            LOGGER.error("Konnte Datei nicht löschen {}", f.getAbsolutePath(), err);
         }
     }
     

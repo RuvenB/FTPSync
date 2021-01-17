@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="de.beckers.ftpSync.AppTest" time="0.109" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="de.beckers.ftpSync.AppTest" time="0.265" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="13"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.class.path" value="C:\Users\Ruven\Dropbox\eclipse-workspaces\ftpSync\target\test-classes;C:\Users\Ruven\Dropbox\eclipse-workspaces\ftpSync\target\classes;C:\Users\Ruven\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\Ruven\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\Ruven\.m2\repository\org\apache\logging\log4j\log4j-api\2.14.0\log4j-api-2.14.0.jar;C:\Users\Ruven\.m2\repository\org\apache\logging\log4j\log4j-core\2.14.0\log4j-core-2.14.0.jar;"/>
+    <property name="java.class.path" value="C:\Users\Ruven\Dropbox\eclipse-workspaces\ftpSync\target\test-classes;C:\Users\Ruven\Dropbox\eclipse-workspaces\ftpSync\target\classes;C:\Users\Ruven\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\Ruven\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\Ruven\.m2\repository\org\apache\logging\log4j\log4j-api\2.14.0\log4j-api-2.14.0.jar;C:\Users\Ruven\.m2\repository\org\apache\logging\log4j\log4j-core\2.14.0\log4j-core-2.14.0.jar;C:\Users\Ruven\.m2\repository\commons-net\commons-net\3.6\commons-net-3.6.jar;"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="user.variant" value=""/>
@@ -15,9 +15,9 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="DE"/>
     <property name="sun.boot.library.path" value="C:\Program Files\jdk-13.0.2\bin"/>
-    <property name="sun.java.command" value="C:\Users\Ruven\AppData\Local\Temp\surefire16544798198224440069\surefirebooter1796427532819207340.jar C:\Users\Ruven\AppData\Local\Temp\surefire16544798198224440069 2020-12-29T19-09-28_504-jvmRun1 surefire2048712305229311549tmp surefire_02974033175740220646tmp"/>
+    <property name="sun.java.command" value="C:\Users\Ruven\AppData\Local\Temp\surefire13913596192769930823\surefirebooter6909518541872544218.jar C:\Users\Ruven\AppData\Local\Temp\surefire13913596192769930823 2021-01-17T15-36-30_816-jvmRun1 surefire8442873735740707488tmp surefire_05511108084070069893tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="C:\Users\Ruven\Dropbox\eclipse-workspaces\ftpSync\target\test-classes;C:\Users\Ruven\Dropbox\eclipse-workspaces\ftpSync\target\classes;C:\Users\Ruven\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\Ruven\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\Ruven\.m2\repository\org\apache\logging\log4j\log4j-api\2.14.0\log4j-api-2.14.0.jar;C:\Users\Ruven\.m2\repository\org\apache\logging\log4j\log4j-core\2.14.0\log4j-core-2.14.0.jar;"/>
+    <property name="surefire.test.class.path" value="C:\Users\Ruven\Dropbox\eclipse-workspaces\ftpSync\target\test-classes;C:\Users\Ruven\Dropbox\eclipse-workspaces\ftpSync\target\classes;C:\Users\Ruven\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\Ruven\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\Ruven\.m2\repository\org\apache\logging\log4j\log4j-api\2.14.0\log4j-api-2.14.0.jar;C:\Users\Ruven\.m2\repository\org\apache\logging\log4j\log4j-core\2.14.0\log4j-core-2.14.0.jar;C:\Users\Ruven\.m2\repository\commons-net\commons-net\3.6\commons-net-3.6.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\Ruven"/>
     <property name="user.language" value="de"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Ruven\AppData\Local\Temp\surefire16544798198224440069\surefirebooter1796427532819207340.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Ruven\AppData\Local\Temp\surefire13913596192769930823\surefirebooter6909518541872544218.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="13.0.2+8"/>
@@ -55,5 +55,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="57.0"/>
   </properties>
-  <testcase name="shouldAnswerWithTrue" classname="de.beckers.ftpSync.AppTest" time="0"/>
+  <testcase name="shouldAnswerWithTrue" classname="de.beckers.ftpSync.AppTest" time="0.016"/>
 </testsuite>

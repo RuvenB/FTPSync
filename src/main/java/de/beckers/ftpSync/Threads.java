@@ -41,13 +41,18 @@ public class Threads implements StartStoppable{
     @Override
     public void start() {
         final Path dir = new File(konf.getLocalDir()).toPath();
+        final FTPWatcher ftpWatcher = new FTPWatcher(konf);
         final FileCopier copier = new FileCopier(konf.getLocalDir(), new File(konf.getLocalCacheDir()),
-            konf.getToExclude());
+            konf.getToExclude(), ftpWatcher);
         final long now = System.currentTimeMillis();
         initialLocalScan(dir, copier, this.timeDB.get());
-        this.timeDB.set(now); //Damit beim naechsten mal nicht nochmal die gleichen hpochlädt
+        this.timeDB.set(now); //Damit beim naechsten mal nicht nochmal die gleichen hochlädt
         this.uploadTimer = new Timer("Uploadtimer");
         this.uploadTimer.schedule(new Uploader(this.konf), 100, konf.getUploadInterval());
+
+        this.ftpScanTimer = new Timer("FTPScan");
+        this.ftpScanTimer.schedule(ftpWatcher, 10000);
+
         try{
             this.watcher = new DirWatcher(dir, true, new TimeChangeWatcher(copier, this.timeDB));
             new Thread(this.watcher).start();
@@ -61,11 +66,14 @@ public class Threads implements StartStoppable{
         if(this.uploadTimer != null){
             this.uploadTimer.cancel();
         }
+        if(this.ftpScanTimer != null){
+            this.ftpScanTimer.cancel();
+        }
         if(this.watcher != null){
             this.watcher.stop();
         }
     }
-        /**
+    /**
      * Geht initial einmal das Verzeichnis durch um Änderungen vor dem Start
      * des {@link DirWatcher} zu verarbeiten
      * 
