@@ -3,7 +3,6 @@ package de.beckers.ftpsync;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -20,6 +19,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
+import org.apache.commons.net.ftp.FTPFile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,25 +49,24 @@ public class FTPWatcher extends TimerTask {
         this.bearbeiteteDateien.clear();
         final FTPClient ftp = new FTPClient();
         final FTPClientConfig conf = new FTPClientConfig(FTPClientConfig.SYST_UNIX);
-        conf.setServerLanguageCode("de");
+        conf.setUnparseableEntries(true);
         ftp.configure(conf);
         try{
-            ftp.setCharset(StandardCharsets.ISO_8859_1);
-            ftp.setControlEncoding(StandardCharsets.ISO_8859_1.name());
+            ftp.setControlEncoding("UTF-8");
             ftp.connect(konf.getFtpHost());
-            ftp.enterLocalPassiveMode();
-            ftp.setFileType(FTP.BINARY_FILE_TYPE);
-            ftp.setFileTransferMode(FTP.BINARY_FILE_TYPE);;
             if(!ftp.login(konf.getFtpUser(), konf.getFtpPwd())){
                 LOGGER.warn("Konnte mich nicht am FTP anmelden");
                 return;
             }
-            if(!ftp.changeWorkingDirectory(konf.getFtpDir())){
-                LOGGER.error("Konnte nicht in FTP-Verzeichnis wechseln");
+            // ftp.setFileTransferMode(FTP.BINARY_FILE_TYPE);
+            ftp.setFileType(FTP.BINARY_FILE_TYPE);
+            ftp.type(FTP.BINARY_FILE_TYPE);
+            if(!ftp.changeWorkingDirectory( konf.getFtpDir() ) ) {
+                LOGGER.warn("Konnte nicht in Verzeichnis {} wechseln", konf.getFtpDir() );
                 return;
             }
-            ftp.type(FTP.BINARY_FILE_TYPE);
-            final var fileNames = ftp.listNames();
+            ftp.enterLocalPassiveMode();
+            final var fileNames = ftp.listFiles();
             if(fileNames != null && fileNames.length > 0){
                 bearbeiteNamen(fileNames, ftp);
             }
@@ -83,16 +82,21 @@ public class FTPWatcher extends TimerTask {
             }
         }
     }
-    private void bearbeiteNamen(final String[] names, final FTPClient ftp){
+    private void bearbeiteNamen(final FTPFile[] names, final FTPClient ftp){
         /**
          * Enthält die schon bearbeiteten Dateien.
          * Will ja immer nur den letzten Stand
          */
         final Collection<String> usedFiles = new ArrayList<>();
-        final var fileNamePattern = Pattern.compile("^(\\d){14}([cmd])(.+)$");
+        final var fileNamePattern = Pattern.compile("^(\\d{14})([cmd])(.+)$");
         final var sf = new SimpleDateFormat("yyyyMMddHHmmss");
         for(int i = names.length-1; i>= 0; i--){
-            bearbeiteDateiNamen(names[i], usedFiles, fileNamePattern, sf, ftp);
+            final var file = names[i];
+            if(file.isValid()){
+                bearbeiteDateiNamen(file.getName(), usedFiles, fileNamePattern, sf, ftp);
+            }else{
+                LOGGER.warn(file.getRawListing());
+            }
         }
     }
     private void bearbeiteDateiNamen(final String ftpName, final Collection<String> usedFiles,

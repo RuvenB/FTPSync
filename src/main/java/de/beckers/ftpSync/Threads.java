@@ -51,7 +51,7 @@ public class Threads implements StartStoppable{
         this.uploadTimer.schedule(new Uploader(this.konf), 100, konf.getUploadInterval());
 
         this.ftpScanTimer = new Timer("FTPScan");
-        this.ftpScanTimer.schedule(ftpWatcher, 10000);
+        this.ftpScanTimer.schedule(ftpWatcher, 5000);
 
         try{
             this.watcher = new DirWatcher(dir, true, new TimeChangeWatcher(copier, this.timeDB));

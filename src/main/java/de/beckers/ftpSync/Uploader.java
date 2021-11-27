@@ -44,20 +44,15 @@ public class Uploader extends TimerTask{
             LOGGER.debug("Keine Dateien vorhanden");
             return;
         }
+        final FTPClient client = new FTPClient();
         try{
-            final FTPClient client = new FTPClient();
-            FTPClientConfig conf = new FTPClientConfig(FTPClientConfig.SYST_UNIX);
-            conf.setServerLanguageCode("de");
-            client.configure(conf);
-            client.setCharset(StandardCharsets.ISO_8859_1);
             client.connect(this.konf.getFtpHost());
-            client.enterLocalPassiveMode();
-            client.setFileType(FTP.BINARY_FILE_TYPE);
-            client.setFileTransferMode(FTP.BINARY_FILE_TYPE);
             if(!client.login(this.konf.getFtpUser(), this.konf.getFtpPwd())){
                 LOGGER.error("Konnte mich am FTP nicht anmelden");
                 return;
             }
+            client.enterLocalPassiveMode();
+            client.setFileType(FTP.BINARY_FILE_TYPE);
     
             InputStream inputStream;
             final String ftpDir = this.konf.getFtpDir();
@@ -72,11 +67,16 @@ public class Uploader extends TimerTask{
                     LOGGER.error("Konnte Datei nicht hochladen: {}", remoteFileName);
                 }
             }
-            if(client.isConnected()){
-                client.disconnect();
-            }
         }catch(IOException e){
-            LOGGER.error(e);
+            LOGGER.error("Fehler bei der FTP-Verarbeitung", e);
+        }finally{
+            if(client.isConnected()){
+                try{
+                    client.disconnect();
+                }catch(IOException ioE){
+                    LOGGER.error("Fehler beim Schliessen der FTP-Verbindung", ioE);
+                }
+            }
         }
     }
     private static void deleteFile(final File f){
